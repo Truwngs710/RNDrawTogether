@@ -7,7 +7,9 @@ import {
   useTouchHandler,
 } from "@shopify/react-native-skia";
 import React, { useCallback, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, Text, TouchableOpacity, View } from "react-native";
+import { style } from "../style";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 type PathWithColorAndWidth = {
   path: SkPath;
@@ -69,7 +71,7 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
         setColor={setColor}
         setStrokeWidth={setStrokeWidth}
       />
-      <Canvas style={style.container} onTouch={touchHandler}>
+      <Canvas style={style.canvas} onTouch={touchHandler}>
         {paths.map((path, index) => (
           <Path
             key={index}
@@ -80,6 +82,16 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
           />
         ))}
       </Canvas>
+      <View style={style.controlPad}>
+        <TouchableOpacity
+          style={style.returnDraw}
+          onPress={() => {
+            setPaths((paths && paths.slice(0, -1)) || []);
+          }}
+        >
+          <Icon name="rotate-left" size={50}></Icon>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -115,7 +127,7 @@ const Toolbar = ({
   };
 
   return (
-    <>
+    <View style={style.toolbarContainer}>
       {showStrokes && (
         <View style={[style.toolbar, style.strokeToolbar]}>
           {strokes.map((stroke) => (
@@ -145,7 +157,7 @@ const Toolbar = ({
           />
         ))}
       </View>
-    </>
+    </View>
   );
 };
 
@@ -164,55 +176,9 @@ const ColorButton = ({ color, onPress, isSelected }: ColorButtonProps) => {
         { backgroundColor: color },
         isSelected && {
           borderWidth: 2,
-          borderColor: "black",
+          borderColor: "#5CE1E6",
         },
       ]}
     />
   );
 };
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-  },
-  strokeOption: {
-    fontSize: 18,
-    backgroundColor: "#f7f7f7",
-  },
-  toolbar: {
-    backgroundColor: "#ffffff",
-    height: 50,
-    width: 300,
-    borderRadius: 100,
-    borderColor: "#f0f0f0",
-    borderWidth: 1,
-    flexDirection: "row",
-    paddingHorizontal: 12,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-  },
-  separator: {
-    height: 30,
-    borderWidth: 1,
-    borderColor: "#f0f0f0",
-    marginHorizontal: 10,
-  },
-  currentStroke: {
-    backgroundColor: "#f7f7f7",
-    borderRadius: 5,
-  },
-  strokeToolbar: {
-    position: "absolute",
-    top: 70,
-    justifyContent: "space-between",
-    zIndex: 100,
-  },
-  colorButton: {
-    width: 30,
-    height: 30,
-    borderRadius: 100,
-    marginHorizontal: 5,
-  },
-});

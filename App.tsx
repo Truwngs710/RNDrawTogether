@@ -1,7 +1,7 @@
 import { SafeAreaView, StyleSheet } from "react-native";
-import { SketchCanvasWithInteraction } from "./src/canvas-with-interactivity";
-import { SketchCanvasWithoutInteraction } from "./src/canvas-without-interactivity";
-import { SketchCanvasWithInteractionAndCustomization } from "./src/canvas-with-interactivity-and-customizability";
+import { SketchCanvasWithInteraction } from "./src/canvas/canvas-with-interactivity";
+import { SketchCanvasWithoutInteraction } from "./src/canvas/canvas-without-interactivity";
+import { SketchCanvasWithInteractionAndCustomization } from "./src/canvas/canvas-with-interactivity-and-customizability";
 
 export default function App() {
   return (
