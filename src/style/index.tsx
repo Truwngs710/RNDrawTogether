@@ -8,12 +8,14 @@ export const style = StyleSheet.create({
     width: '100%',
   },
   canvas: {
+    backgroundColor: 'white',
     flex: 1,
     marginVertical: (windowHeight - windowWidth) / 2 + 20,
     width: windowWidth - 20,
     alignSelf: 'center',
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: 'white',
+    borderRadius: 25,
   },
   strokeOption: {
     fontSize: 18,
