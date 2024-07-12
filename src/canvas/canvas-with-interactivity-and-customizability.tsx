@@ -5,11 +5,11 @@ import {
   Skia,
   TouchInfo,
   useTouchHandler,
-} from "@shopify/react-native-skia";
-import React, { useCallback, useState } from "react";
-import { Pressable, Text, TouchableOpacity, View } from "react-native";
-import { style } from "../style";
-import Icon from "react-native-vector-icons/FontAwesome";
+} from '@shopify/react-native-skia';
+import React, {useCallback, useState} from 'react';
+import {Pressable, Text, TouchableOpacity, View} from 'react-native';
+import {style} from '../style';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 type PathWithColorAndWidth = {
   path: SkPath;
@@ -25,8 +25,8 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
 
   const onDrawingStart = useCallback(
     (touchInfo: TouchInfo) => {
-      setPaths((currentPaths) => {
-        const { x, y } = touchInfo;
+      setPaths(currentPaths => {
+        const {x, y} = touchInfo;
         const newPath = Skia.Path.Make();
         newPath.moveTo(x, y);
         return [
@@ -39,12 +39,12 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
         ];
       });
     },
-    [color, strokeWidth]
+    [color, strokeWidth],
   );
 
   const onDrawingActive = useCallback((touchInfo: TouchInfo) => {
-    setPaths((currentPaths) => {
-      const { x, y } = touchInfo;
+    setPaths(currentPaths => {
+      const {x, y} = touchInfo;
       const currentPath = currentPaths[currentPaths.length - 1];
       const lastPoint = currentPath.path.getLastPt();
       const xMid = (lastPoint.x + x) / 2;
@@ -60,7 +60,7 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
       onActive: onDrawingActive,
       onStart: onDrawingStart,
     },
-    [onDrawingActive, onDrawingStart]
+    [onDrawingActive, onDrawingStart],
   );
 
   return (
@@ -77,7 +77,7 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
             key={index}
             path={path.path}
             color={path.color}
-            style={"stroke"}
+            style={'stroke'}
             strokeWidth={path.strokeWidth}
           />
         ))}
@@ -87,8 +87,7 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
           style={style.returnDraw}
           onPress={() => {
             setPaths((paths && paths.slice(0, -1)) || []);
-          }}
-        >
+          }}>
           <Icon name="rotate-left" size={50}></Icon>
         </TouchableOpacity>
       </View>
@@ -96,7 +95,7 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
   );
 };
 
-const Colors = ["black", "red", "blue", "green", "yellow", "white"] as const;
+const Colors = ['black', 'red', 'blue', 'green', 'yellow', 'white'] as const;
 
 type Color = (typeof Colors)[number];
 
@@ -130,11 +129,10 @@ const Toolbar = ({
     <View style={style.toolbarContainer}>
       {showStrokes && (
         <View style={[style.toolbar, style.strokeToolbar]}>
-          {strokes.map((stroke) => (
+          {strokes.map(stroke => (
             <Pressable
               onPress={() => handleStrokeWidthChange(stroke)}
-              key={stroke}
-            >
+              key={stroke}>
               <Text style={style.strokeOption}>{stroke}</Text>
             </Pressable>
           ))}
@@ -143,12 +141,11 @@ const Toolbar = ({
       <View style={[style.toolbar]}>
         <Pressable
           style={style.currentStroke}
-          onPress={() => setShowStrokes(!showStrokes)}
-        >
+          onPress={() => setShowStrokes(!showStrokes)}>
           <Text>{strokeWidth}</Text>
         </Pressable>
         <View style={style.separator} />
-        {Colors.map((item) => (
+        {Colors.map(item => (
           <ColorButton
             isSelected={item === color}
             key={item}
@@ -167,16 +164,16 @@ type ColorButtonProps = {
   onPress: () => void;
 };
 
-const ColorButton = ({ color, onPress, isSelected }: ColorButtonProps) => {
+const ColorButton = ({color, onPress, isSelected}: ColorButtonProps) => {
   return (
     <Pressable
       onPress={onPress}
       style={[
         style.colorButton,
-        { backgroundColor: color },
+        {backgroundColor: color},
         isSelected && {
           borderWidth: 2,
-          borderColor: "#5CE1E6",
+          borderColor: '#5CE1E6',
         },
       ]}
     />
