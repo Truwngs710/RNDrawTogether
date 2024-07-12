@@ -25,6 +25,7 @@ target 'DT' do
 
   target 'DTTests' do
     inherit! :complete
+    pod 'Firebase/Database'
     # Pods for testing
   end
 

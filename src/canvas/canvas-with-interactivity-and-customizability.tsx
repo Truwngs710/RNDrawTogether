@@ -10,7 +10,7 @@ import React, {useCallback, useState} from 'react';
 import {Pressable, Text, TouchableOpacity, View} from 'react-native';
 import {style} from '../style';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import {addDataToRealtimeDB} from '../firebase/firebaseConfig';
 type PathWithColorAndWidth = {
   path: SkPath;
   color: Color;
@@ -55,12 +55,17 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
     });
   }, []);
 
+  const OnDrawingEnd = useCallback((touchInfo: TouchInfo) => {
+    addDataToRealtimeDB('1', paths);
+  }, []);
+
   const touchHandler = useTouchHandler(
     {
       onActive: onDrawingActive,
       onStart: onDrawingStart,
+      onEnd: OnDrawingEnd,
     },
-    [onDrawingActive, onDrawingStart],
+    [onDrawingActive, onDrawingStart, OnDrawingEnd],
   );
 
   return (
