@@ -1,5 +1,4 @@
 import {initializeApp} from 'firebase/app';
-import database from '@react-native-firebase/database';
 import {getDatabase, ref, set, get, child} from 'firebase/database';
 
 const firebaseConfig = {
@@ -18,10 +17,9 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // Thêm dữ liệu vào Firebase Realtime Database
-export const addDataToRealtimeDB = async (path: string, data: any[]) => {
+export const addDataToRealtimeDB = async (path: string, data: any) => {
   try {
     await set(ref(db, path), data);
-    console.log('Data written successfully!');
   } catch (e) {
     console.error('Error adding data: ', e);
   }

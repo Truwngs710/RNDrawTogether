@@ -6,11 +6,14 @@ import {
   TouchInfo,
   useTouchHandler,
 } from '@shopify/react-native-skia';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Pressable, Text, TouchableOpacity, View} from 'react-native';
 import {style} from '../style';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {addDataToRealtimeDB} from '../firebase/firebaseConfig';
+import {
+  addDataToRealtimeDB,
+  getDataFromRealtimeDB,
+} from '../firebase/firebaseConfig';
 import {Toolbar} from './toolbar';
 import {Colors, strokes} from '../constant/constant';
 
@@ -25,8 +28,21 @@ type PathWithColorAndWidth = {
 export const SketchCanvasWithInteractionAndCustomization = () => {
   const [paths, setPaths] = useState<PathWithColorAndWidth[]>([]);
   const [color, setColor] = useState<Color>(Colors[0]);
-
   const [strokeWidth, setStrokeWidth] = useState(strokes[0]);
+  const [combinedSvgPath, setCombinedSvgPath] = useState<
+    PathWithColorAndWidth[]
+  >([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getDataFromRealtimeDB('1');
+      setCombinedSvgPath(data);
+    };
+
+    fetchData();
+
+    return () => {};
+  }, []);
 
   const onDrawingStart = useCallback(
     (touchInfo: TouchInfo) => {
@@ -60,9 +76,25 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
     });
   }, []);
 
-  const OnDrawingEnd = useCallback((touchInfo: TouchInfo) => {
-    addDataToRealtimeDB('1', ['paths']);
-  }, []);
+  const OnDrawingEnd = () => {
+    let combinedSvgPathArray = [];
+    for (let i = 0; i < paths.length; i++) {
+      const svgString = paths[i]?.path?.toSVGString();
+      const pathObject = {
+        path: svgString,
+        color: 'black',
+        strokeWidth: 2,
+      };
+      combinedSvgPathArray.push(pathObject);
+      console.log(svgString || 'a');
+    }
+    console.log('Combined SVG Path Array:', combinedSvgPathArray);
+    addDataToRealtimeDB('1', combinedSvgPathArray);
+  };
+
+  const handlePressReturn = () => {
+    setCombinedSvgPath(prevPaths => prevPaths.slice(0, -1));
+  };
 
   const touchHandler = useTouchHandler(
     {
@@ -86,9 +118,18 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
           <Path
             key={index}
             path={path.path}
-            color={path.color}
+            color={color}
             style={'stroke'}
             strokeWidth={path.strokeWidth}
+          />
+        ))}
+        {combinedSvgPath.map((path, index) => (
+          <Path
+            key={combinedSvgPath.length + index}
+            path={combinedSvgPath[index].path}
+            color={'black'}
+            style={'stroke'}
+            strokeWidth={2}
           />
         ))}
       </Canvas>
@@ -96,10 +137,8 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
         <TouchableOpacity
           style={style.returnDraw}
           onPress={() => {
-            setPaths((paths && paths.slice(0, -1)) || []);
-          }}>
-          <Icon name="rotate-left" size={50}></Icon>
-        </TouchableOpacity>
+            handlePressReturn();
+          }}></TouchableOpacity>
       </View>
     </View>
   );
