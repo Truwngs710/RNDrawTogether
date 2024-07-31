@@ -8,7 +8,7 @@ import {
 } from '@shopify/react-native-skia';
 import React, {useCallback, useEffect, useState} from 'react';
 import {Pressable, Text, TouchableOpacity, View} from 'react-native';
-import {style} from '../style';
+import {style} from './style';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   addDataToRealtimeDB,
@@ -24,25 +24,32 @@ type PathWithColorAndWidth = {
   color: Color;
   strokeWidth: number;
 };
+type PathUpdate = {
+  path: string;
+  color: Color;
+  strokeWidth: number;
+};
 
 export const SketchCanvasWithInteractionAndCustomization = () => {
   const [paths, setPaths] = useState<PathWithColorAndWidth[]>([]);
   const [color, setColor] = useState<Color>(Colors[0]);
   const [strokeWidth, setStrokeWidth] = useState(strokes[0]);
-  const [combinedSvgPath, setCombinedSvgPath] = useState<
-    PathWithColorAndWidth[]
-  >([]);
+  const [combinedSvgPath, setCombinedSvgPath] = useState<PathUpdate[]>([]);
+
+  //Lấy data vẽ về
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getDataFromRealtimeDB('1');
-      setCombinedSvgPath(data);
+      setCombinedSvgPath(data || []);
     };
 
     fetchData();
 
     return () => {};
   }, []);
+
+  // Bắt đầu vẽ
 
   const onDrawingStart = useCallback(
     (touchInfo: TouchInfo) => {
@@ -63,6 +70,8 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
     [color, strokeWidth],
   );
 
+  // Trong khi vẽ
+
   const onDrawingActive = useCallback((touchInfo: TouchInfo) => {
     setPaths(currentPaths => {
       const {x, y} = touchInfo;
@@ -76,20 +85,18 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
     });
   }, []);
 
+  //Khi vẽ xong
+
   const OnDrawingEnd = () => {
-    let combinedSvgPathArray = [];
-    for (let i = 0; i < paths.length; i++) {
-      const svgString = paths[i]?.path?.toSVGString();
-      const pathObject = {
-        path: svgString,
-        color: 'black',
-        strokeWidth: 2,
-      };
-      combinedSvgPathArray.push(pathObject);
-      console.log(svgString || 'a');
-    }
-    console.log('Combined SVG Path Array:', combinedSvgPathArray);
-    addDataToRealtimeDB('1', combinedSvgPathArray);
+    const svgString = paths[paths.length - 1].path.toSVGString();
+    const pathObject: PathUpdate = {
+      path: svgString || '',
+      color: 'black',
+      strokeWidth: 2,
+    };
+    let path = [...combinedSvgPath, pathObject];
+    addDataToRealtimeDB('1', path);
+    setCombinedSvgPath(path);
   };
 
   const handlePressReturn = () => {
@@ -123,7 +130,7 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
             strokeWidth={path.strokeWidth}
           />
         ))}
-        {combinedSvgPath.map((path, index) => (
+        {combinedSvgPath?.map((path, index) => (
           <Path
             key={combinedSvgPath.length + index}
             path={combinedSvgPath[index].path}
