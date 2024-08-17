@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
+import {signUp} from '../firebase/firebaseConfig';
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -15,11 +16,6 @@ const LoginScreen: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const handleLogin = () => {
-    if (!email || !password) {
-      setError('Please enter both email and password.');
-      return;
-    }
-
     // Xử lý đăng nhập
     // Ví dụ giả lập đăng nhập thành công
     setError(null); // Clear any previous errors
@@ -46,7 +42,11 @@ const LoginScreen: React.FC = () => {
         secureTextEntry
         textContentType="password"
       />
-      <Button title="Login" onPress={handleLogin} color="#007BFF" />
+      <Button
+        title="Sign up"
+        onPress={() => signUp(email, password)}
+        color="#007BFF"
+      />
       <TouchableOpacity
         style={styles.forgotPassword}
         onPress={() => Alert.alert('Forgot Password')}>

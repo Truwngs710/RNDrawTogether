@@ -1,7 +1,7 @@
+import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {SketchCanvasWithInteractionAndCustomization} from './src/canvas/canvas-with-interactivity-and-customizability';
-import WelcomePage from './src/signin/wellcomePage';
-import React from 'react';
+import WelcomePage from './src/signin/Login';
 
 const DrawPage: React.FC = () => {
   return (
@@ -12,7 +12,9 @@ const DrawPage: React.FC = () => {
 };
 
 export default function App() {
-  return <DrawPage />;
+  const [uid, setUid] = useState<string | null>(null); // Giả sử bạn lấy Uid từ state hoặc props
+
+  return <>{uid ? <DrawPage /> : <WelcomePage />}</>;
 }
 
 const styles = StyleSheet.create({
