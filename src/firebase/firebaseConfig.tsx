@@ -1,5 +1,11 @@
 import {initializeApp} from 'firebase/app';
 import {getDatabase, ref, set, get, child} from 'firebase/database';
+import {
+  getAuth,
+  getReactNativePersistence,
+  initializeAuth,
+} from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAEoefRCdXLaW899DrwUwPqYmlECm28m1I',
@@ -13,8 +19,12 @@ const firebaseConfig = {
 };
 
 // Khởi tạo Firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const FIREBASE_APP = initializeApp(firebaseConfig);
+export const FIREBASE_AUTH = initializeAuth(FIREBASE_APP, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});
+
+const db = getDatabase(FIREBASE_APP);
 
 // Thêm dữ liệu vào Firebase Realtime Database
 export const addDataToRealtimeDB = async (path: string, data: any) => {

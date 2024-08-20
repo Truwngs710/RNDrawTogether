@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-native-firebase/app": "^20.1.0",
     "@react-native-firebase/database": "^20.1.0",
     "@shopify/react-native-skia": "0.1.196",

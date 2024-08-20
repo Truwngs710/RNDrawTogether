@@ -12,6 +12,7 @@ import {style} from './style';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   addDataToRealtimeDB,
+  FIREBASE_AUTH,
   getDataFromRealtimeDB,
 } from '../firebase/firebaseConfig';
 import {Toolbar} from './toolbar';
@@ -145,6 +146,11 @@ export const SketchCanvasWithInteractionAndCustomization = () => {
           style={style.returnDraw}
           onPress={() => {
             handlePressReturn();
+          }}></TouchableOpacity>
+        <TouchableOpacity
+          style={style.returnDraw}
+          onPress={() => {
+            FIREBASE_AUTH.signOut();
           }}></TouchableOpacity>
       </View>
     </View>

@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {SketchCanvasWithInteractionAndCustomization} from './src/canvas/canvas-with-interactivity-and-customizability';
 import WelcomePage from './src/signin/Login';
+import {FIREBASE_AUTH} from './src/firebase/firebaseConfig';
+import {onAuthStateChanged, User} from '@firebase/auth';
 
 const DrawPage: React.FC = () => {
   return (
@@ -12,9 +14,16 @@ const DrawPage: React.FC = () => {
 };
 
 export default function App() {
-  const [uid, setUid] = useState<string | null>(null); // Giả sử bạn lấy Uid từ state hoặc props
+  const [user, setUser] = useState<User | null>(null); // Giả sử bạn lấy Uid từ state hoặc props
 
-  return <>{uid ? <DrawPage /> : <WelcomePage />}</>;
+  useEffect(() => {
+    onAuthStateChanged(FIREBASE_AUTH, user => {
+      console.log('user:', user);
+      setUser(user);
+    });
+  }, []);
+
+  return <>{user ? <DrawPage /> : <WelcomePage />}</>;
 }
 
 const styles = StyleSheet.create({
