@@ -5,11 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
   Alert,
-  ImageBackground,
   Image,
 } from 'react-native';
 import {FIREBASE_AUTH} from '../firebase/firebaseConfig';
@@ -17,11 +13,12 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
+import LinearGradient from 'react-native-linear-gradient';
 
 const LoginScreen: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const auth = FIREBASE_AUTH;
 
   const handleSignUp = async () => {
@@ -54,57 +51,79 @@ const LoginScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Nền với hình ảnh gradient */}
-      <ImageBackground
-        // source={require('./path_to_your_background_image.png')}
-        style={styles.backgroundImage}>
-        <Text style={styles.title}>Create Account</Text>
+      {/* Phần logo và gradient */}
+      <LinearGradient colors={['#3a8ee6', '#6c50e0']} style={styles.header}>
+        <Image
+          source={{uri: 'https://example.com/logo.png'}}
+          style={styles.logo}
+        />
+      </LinearGradient>
 
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Full name"
-            placeholderTextColor="#fff"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            placeholderTextColor="#fff"
-            keyboardType="email-address"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor="#fff"
-            secureTextEntry={true}
-          />
-        </View>
+      {/* Phần "Welcome back!" */}
+      <Text style={styles.welcomeText}>Welcome back !</Text>
 
-        <TouchableOpacity style={styles.signupButton}>
-          <Text style={styles.signupButtonText}>Sign up</Text>
+      {/* Ô nhập Username */}
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+
+      {/* Ô nhập Password */}
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+
+      {/* Phần "Remember me" và "Forget password?" */}
+      <View style={styles.optionsContainer}>
+        <Text style={styles.rememberText}>Remember me</Text>
+        <TouchableOpacity>
+          <Text style={styles.forgetPasswordText}>Forget password?</Text>
         </TouchableOpacity>
+      </View>
 
-        <Text style={styles.orText}>or</Text>
+      {/* Nút "Login" */}
+      <TouchableOpacity style={styles.loginButton} onPress={handleSignIn}>
+        <Text style={styles.loginButtonText}>Login</Text>
+      </TouchableOpacity>
 
-        <View style={styles.socialIcons}>
-          <TouchableOpacity>
-            <Image
-              // source={require('./path_to_facebook_icon.png')}
-              style={styles.socialIcon}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-              // source={require('./path_to_google_icon.png')}
-              style={styles.socialIcon}
-            />
-          </TouchableOpacity>
-        </View>
+      {/* Phần "New user?" và "Sign Up" */}
+      <TouchableOpacity style={styles.signUpContainer} onPress={handleSignUp}>
+        <Text style={styles.newUserText}>New user?</Text>
+        <Text style={styles.signUpText}> Sign Up</Text>
+      </TouchableOpacity>
 
-        <Text style={styles.loginText}>
-          Already have an account? <Text style={styles.loginLink}>Log in</Text>
-        </Text>
-      </ImageBackground>
+      {/* Phần "OR" */}
+      <Text style={styles.orText}>OR</Text>
+
+      {/* Biểu tượng mạng xã hội */}
+      <View style={styles.socialContainer}>
+        <Image
+          source={{uri: 'https://example.com/twitter-icon.png'}}
+          style={styles.socialIcon}
+        />
+        <Image
+          source={{uri: 'https://example.com/linkedin-icon.png'}}
+          style={styles.socialIcon}
+        />
+        <Image
+          source={{uri: 'https://example.com/facebook-icon.png'}}
+          style={styles.socialIcon}
+        />
+        <Image
+          source={{uri: 'https://example.com/google-icon.png'}}
+          style={styles.socialIcon}
+        />
+      </View>
+
+      <Text style={styles.footerText}>Sign in with another account</Text>
     </View>
   );
 };
@@ -112,72 +131,88 @@ const LoginScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#f8f8f8',
     alignItems: 'center',
-    backgroundColor: '#000', // Màu nền cho màn hình
+    justifyContent: 'center',
   },
-  backgroundImage: {
+  header: {
     width: '100%',
-    height: '100%',
-    justifyContent: 'center',
+    height: '30%',
     alignItems: 'center',
-    padding: 20,
+    justifyContent: 'center',
+    borderBottomLeftRadius: 100,
+    borderBottomRightRadius: 100,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
+  logo: {
+    width: 120,
+    height: 120,
+  },
+  welcomeText: {
+    fontSize: 24,
     color: '#333',
-    marginBottom: 20,
-  },
-  inputContainer: {
-    width: '100%',
+    marginVertical: 20,
   },
   input: {
-    height: 50,
-    backgroundColor: '#fff',
-    borderRadius: 25,
-    paddingHorizontal: 20,
+    width: '80%',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 30,
+    backgroundColor: '#f0f0f0',
     marginVertical: 10,
-    fontSize: 16,
-    color: '#333',
   },
-  signupButton: {
-    height: 50,
-    backgroundColor: '#a74bfc',
-    borderRadius: 25,
-    justifyContent: 'center',
+  optionsContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 20,
-    width: '100%',
+    justifyContent: 'space-between',
+    width: '80%',
+    marginVertical: 10,
   },
-  signupButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  rememberText: {
+    color: '#555',
+  },
+  forgetPasswordText: {
+    color: '#555',
+  },
+  loginButton: {
+    width: '80%',
+    paddingVertical: 15,
+    borderRadius: 30,
+    backgroundColor: '#3a8ee6',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  loginButtonText: {
     color: '#fff',
+    fontSize: 16,
+  },
+  signUpContainer: {
+    flexDirection: 'row',
+    marginVertical: 10,
+  },
+  newUserText: {
+    color: '#888',
+  },
+  signUpText: {
+    color: '#3a8ee6',
+    fontWeight: 'bold',
   },
   orText: {
-    color: '#999',
-    fontSize: 16,
-    marginBottom: 10,
+    color: '#888',
+    marginVertical: 10,
   },
-  socialIcons: {
+  socialContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '30%',
-    marginBottom: 20,
+    marginTop: 20,
   },
   socialIcon: {
     width: 40,
     height: 40,
-    resizeMode: 'contain',
+    marginHorizontal: 10,
   },
-  loginText: {
+  footerText: {
     color: '#aaa',
-    fontSize: 14,
-  },
-  loginLink: {
-    color: '#a74bfc',
-    textDecorationLine: 'underline',
+    marginTop: 20,
+    fontSize: 12,
   },
 });
 
