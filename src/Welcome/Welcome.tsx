@@ -1,26 +1,26 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  ImageBackground,
-  Image,
-} from 'react-native';
-import {FIREBASE_AUTH} from '../firebase/firebaseConfig';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import React from 'react';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '../AppNavigator';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {GoogleIcon} from '../constant/icons';
 import {
   BackGroundGradientColors,
   ButtonGradientColor,
 } from '../constant/constant';
 
+type HomeScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Welcome'
+>;
+
 const WelcomeScreen: React.FC = () => {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const NativeToSignUp = () => {
+    navigation.navigate('SignUp');
+  };
+
   return (
     <View style={styles.container}>
       {/* Phần logo và gradient */}
@@ -33,7 +33,7 @@ const WelcomeScreen: React.FC = () => {
       <Text style={styles.welcomeText}>Welcome !</Text>
 
       {/* Nút "Create Account" */}
-      <TouchableOpacity style={styles.buttonContainer}>
+      <TouchableOpacity onPress={NativeToSignUp} style={styles.buttonContainer}>
         <LinearGradient colors={ButtonGradientColor} style={styles.button}>
           <Text style={styles.buttonText}>Create Account</Text>
         </LinearGradient>
@@ -45,12 +45,9 @@ const WelcomeScreen: React.FC = () => {
       </TouchableOpacity>
 
       {/* Biểu tượng mạng xã hội */}
-      <View style={styles.socialContainer}>
-        <Image
-          source={{uri: 'https://example.com/google-icon.png'}}
-          style={styles.socialIcon}
-        />
-      </View>
+      <TouchableOpacity style={styles.socialContainer}>
+        <GoogleIcon width={50} height={50} style={styles.socialIcon} />
+      </TouchableOpacity>
 
       <Text style={styles.footerText}>Sign in with another account</Text>
     </View>

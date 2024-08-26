@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/core';
 import {Dimensions} from 'react-native';
 
 export const PrimaryColor = '#000000';
