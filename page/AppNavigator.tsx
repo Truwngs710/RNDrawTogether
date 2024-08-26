@@ -5,10 +5,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {onAuthStateChanged, User} from '@firebase/auth';
 import {SketchCanvasWithInteractionAndCustomization} from './canvas/canvas-with-interactivity-and-customizability';
-import {FIREBASE_AUTH} from './firebase/firebaseConfig';
 import LoginScreen from './signIn/SignIn';
 import SignUpScreen from './signUp/SignUp';
 import WelcomeScreen from './welcome/Welcome';
+import {FIREBASE_AUTH} from '../config/firebase/firebaseConfig';
 export type RootStackParamList = {
   Draw: undefined;
   Welcome: undefined;

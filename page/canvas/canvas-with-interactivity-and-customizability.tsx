@@ -10,13 +10,14 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {Pressable, Text, TouchableOpacity, View} from 'react-native';
 import {style} from './style';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {Toolbar} from './toolbar';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {
+  getDataFromRealtimeDB,
   addDataToRealtimeDB,
   FIREBASE_AUTH,
-  getDataFromRealtimeDB,
-} from '../firebase/firebaseConfig';
-import {Toolbar} from './toolbar';
-import {Colors, strokes} from '../constant/constant';
+} from '../../config/firebase/firebaseConfig';
+import {strokes} from '../../constant/constant';
 
 type Color = (typeof Colors)[number];
 

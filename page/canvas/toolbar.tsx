@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Pressable, Text, View} from 'react-native';
 import {style} from './style';
-import {strokes} from '../constant/constant';
+import {strokes} from '../../constant/constant';
 
 const Colors = ['black', 'red', 'blue', 'green', 'yellow', 'white'] as const;
 

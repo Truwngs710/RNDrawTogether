@@ -8,12 +8,12 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import {FIREBASE_AUTH} from '../firebase/firebaseConfig';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import LinearGradient from 'react-native-linear-gradient';
+import {FIREBASE_AUTH} from '../../config/firebase/firebaseConfig';
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>('');

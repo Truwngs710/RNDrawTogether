@@ -1,11 +1,8 @@
-import {useNavigation} from '@react-navigation/core';
 import {Dimensions} from 'react-native';
 
 export const PrimaryColor = '#000000';
-
 export const windowWidth = Dimensions.get('window').width;
 export const windowHeight = Dimensions.get('window').height;
-
 export const Colors = [
   'black',
   'red',

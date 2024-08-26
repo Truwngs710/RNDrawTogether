@@ -1,5 +1,5 @@
-import {PrimaryColor, windowHeight, windowWidth} from '../constant/constant';
 import {StyleSheet} from 'react-native';
+import {PrimaryColor, windowHeight, windowWidth} from '../../constant/constant';
 export const style = StyleSheet.create({
   returnDraw: {width: 50, height: 50, backgroundColor: 'red'},
   container: {

@@ -2,13 +2,13 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
-import {RootStackParamList} from '../AppNavigator';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {GoogleIcon} from '../constant/icons';
+import {RootStackParamList} from '../AppNavigator';
 import {
   BackGroundGradientColors,
   ButtonGradientColor,
-} from '../constant/constant';
+} from '../../constant/constant';
+import {GoogleIcon} from '../../constant/icons';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,

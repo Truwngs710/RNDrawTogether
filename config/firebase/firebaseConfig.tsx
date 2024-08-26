@@ -20,6 +20,7 @@ const firebaseConfig = {
 
 // Khởi tạo Firebase
 const FIREBASE_APP = initializeApp(firebaseConfig);
+
 export const FIREBASE_AUTH = initializeAuth(FIREBASE_APP, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });

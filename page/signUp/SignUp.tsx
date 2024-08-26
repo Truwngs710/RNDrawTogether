@@ -8,9 +8,9 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import {FIREBASE_AUTH} from '../firebase/firebaseConfig';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
 import LinearGradient from 'react-native-linear-gradient';
+import {FIREBASE_AUTH} from '../../config/firebase/firebaseConfig';
 
 const SignUpScreen: React.FC = () => {
   const [email, setEmail] = useState<string>('');
