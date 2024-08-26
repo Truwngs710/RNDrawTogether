@@ -15,13 +15,18 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import LinearGradient from 'react-native-linear-gradient';
+import {
+  BackGroundGradientColors,
+  ButtonGradientColor,
+} from '../constant/constant';
 
 const WelcomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       {/* Phần logo và gradient */}
+      {/* background */}
       <LinearGradient
-        colors={['#4c669f', '#3b5998', '#192f6a']}
+        colors={BackGroundGradientColors}
         style={styles.header}></LinearGradient>
 
       {/* Phần text "Welcome" */}
@@ -29,9 +34,7 @@ const WelcomeScreen: React.FC = () => {
 
       {/* Nút "Create Account" */}
       <TouchableOpacity style={styles.buttonContainer}>
-        <LinearGradient
-          colors={['#4c669f', '#3b5998', '#192f6a']}
-          style={styles.button}>
+        <LinearGradient colors={ButtonGradientColor} style={styles.button}>
           <Text style={styles.buttonText}>Create Account</Text>
         </LinearGradient>
       </TouchableOpacity>
@@ -43,18 +46,6 @@ const WelcomeScreen: React.FC = () => {
 
       {/* Biểu tượng mạng xã hội */}
       <View style={styles.socialContainer}>
-        <Image
-          source={{uri: 'https://example.com/twitter-icon.png'}}
-          style={styles.socialIcon}
-        />
-        <Image
-          source={{uri: 'https://example.com/linkedin-icon.png'}}
-          style={styles.socialIcon}
-        />
-        <Image
-          source={{uri: 'https://example.com/facebook-icon.png'}}
-          style={styles.socialIcon}
-        />
         <Image
           source={{uri: 'https://example.com/google-icon.png'}}
           style={styles.socialIcon}
@@ -74,13 +65,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
+    position: 'absolute',
     top: 0,
     width: '100%',
-    height: '40%',
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderBottomLeftRadius: 50,
-    borderBottomRightRadius: 50,
   },
   logo: {
     width: 120,
@@ -89,6 +79,7 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 24,
     marginVertical: 20,
+    fontWeight: '800',
   },
   buttonContainer: {
     width: '80%',
@@ -102,12 +93,13 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 16,
+    fontWeight: '600',
   },
   loginButton: {
     width: '80%',
     paddingVertical: 15,
     borderRadius: 25,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#4c669f',
     alignItems: 'center',
     marginVertical: 10,
@@ -115,6 +107,7 @@ const styles = StyleSheet.create({
   loginButtonText: {
     color: '#4c669f',
     fontSize: 16,
+    fontWeight: '600',
   },
   socialContainer: {
     flexDirection: 'row',
@@ -129,6 +122,7 @@ const styles = StyleSheet.create({
     color: '#aaa',
     marginTop: 20,
     fontSize: 12,
+    fontWeight: '600',
   },
 });
 
